@@ -1,14 +1,15 @@
-from sqlalchemy.orm import relationship
+from typing import List
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import String
 
 
 class Users(Base):
     __tablename__ = "users"
 
-    user_id = Column(Integer, index=True, primary_key=True)
-    username = Column(String(50), nullable=False, unique=True)
-    hashed_pass = Column(String(255), nullable=False)
-    uuid = Column(String(36), nullable=False, unique=True)
+    user_id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    username: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
+    hashed_pass: Mapped[str] = mapped_column(String(255), nullable=False)
+    uuid: Mapped[str] = mapped_column(String(36), nullable=False, unique=True)
 
-    items = relationship("Items", backref="user")
+    items: Mapped[List["Items"]] = relationship("Items", backref="user")

@@ -1,50 +1,25 @@
-"""
-
-ITEMS:
-
--> ID
--> OWNER_ID
-
--> Nome
--> Qntd
--> Marca
--> Preco
--> Categoria
-
--> Total_Add
--> Data
-
--> Ativo
-
-"""
-
+import datetime
+import decimal
+from typing import Optional
+from sqlalchemy.orm import Mapped, mapped_column
 from database import Base
-from sqlalchemy import (
-    Column,
-    Integer,
-    String,
-    Float,
-    Date,
-    Boolean,
-    DECIMAL,
-    ForeignKey,
-)
+from sqlalchemy import String, Float, Date, Boolean, DECIMAL, ForeignKey
 
 
 class Items(Base):
     __tablename__ = "items"
 
-    item_id = Column(Integer, primary_key=True, autoincrement=True)
-    owner_id = Column(Integer, ForeignKey("users.user_id"), nullable=False)
+    item_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("users.user_id"), nullable=False)
 
-    nome = Column(String(30), nullable=False)
-    quantidade = Column(Float, default=0)
-    preco = Column(DECIMAL(10, 0), default=0)
+    nome: Mapped[str] = mapped_column(String(30), nullable=False)
+    quantidade: Mapped[Optional[float]] = mapped_column(Float, default=0)
+    preco: Mapped[Optional[decimal.Decimal]] = mapped_column(DECIMAL(10, 2), default=0)
 
-    marca = Column(String(30))
-    categoria = Column(String(20))
+    marca: Mapped[Optional[str]] = mapped_column(String(30))
+    categoria: Mapped[Optional[str]] = mapped_column(String(20))
 
-    total_add = Column(Integer)
-    add_data = Column(Date)
+    total_add: Mapped[Optional[int]] = mapped_column()
+    add_data: Mapped[Optional[datetime.date]] = mapped_column(Date)
 
-    ativo = Column(Boolean, nullable=False, default=False)
+    ativo: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
