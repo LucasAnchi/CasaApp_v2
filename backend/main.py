@@ -3,7 +3,8 @@ from routers import auth_routers
 from routers import user_routers
 from routers import views_routers
 from routers import items_routers
-from models import userModels
+from routers import lista_routers
+from models import userModels, listaModels
 from database import engine, get_db
 from services.user_service import get_current_user
 from typing import Annotated
@@ -14,6 +15,7 @@ app.include_router(auth_routers.router)
 app.include_router(user_routers.router)
 app.include_router(items_routers.router)
 # app.include_router(views_routers.router)
+app.include_router(lista_routers.router)
 
 userModels.Base.metadata.create_all(bind=engine)
 

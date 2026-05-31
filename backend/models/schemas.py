@@ -61,3 +61,32 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+        
+        
+class ItemLista(BaseModel):
+    nome: str
+    quantidade: Optional[float] = None
+    preco: Optional[decimal.Decimal] = None
+    marca: Optional[str] = None
+
+    class Config:
+        from_attributes = True
+
+
+class ItemListaResponse(ItemLista):
+    lista_id: int
+    
+    
+class ItemListaAdd(ItemLista):
+    pass
+
+class ItemListaUpdate(BaseModel):
+    nome: Optional[str] = None
+    quantidade: Optional[float] = None
+    preco: Optional[decimal.Decimal] = None
+    marca: Optional[str] = None
+    
+    
+class ListaCompras(BaseModel):
+    items: List[ItemLista]
+    
