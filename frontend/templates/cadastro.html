@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Cadastro - CasaApp</title>
+        <link rel="stylesheet" href="/static/cadastro.css" />
+    </head>
+    <body>
+        <div class="cadastro-container">
+            <h1>Cadastro - CasaApp</h1>
+            <p>Controle seu estoque doméstico</p>
+
+            <form id="cadastro-form">
+                <input type="text" id="username" placeholder="Usuário" required />
+                <input type="password" id="password" placeholder="Senha" required />
+                <button type="submit">Cadastrar</button>
+            </form>
+
+            <p class="register">Já tem conta? <a href="/login">Entre</a></p>
+        </div>
+        <script>
+            document.getElementById("cadastro-form").addEventListener("submit", async e => {
+                e.preventDefault();
+
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+
+                const response = await fetch("/api/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location.href = "/login";
+                } else {
+                    document.getElementById("error").innerText = data.detail;
+                }
+            });
+        </script>
+    </body>
+</html>

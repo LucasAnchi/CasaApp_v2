@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login - CasaApp</title>
+        <link rel="stylesheet" href="/static/login.css" />
+    </head>
+    <body>
+        <div class="login-container">
+            <h1>Login - CasaApp</h1>
+            <p>Controle seu estoque doméstico</p>
+
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Usuário" required />
+                <input type="password" id="password" placeholder="Senha" required />
+                <button type="submit">Entrar</button>
+            </form>
+
+            <p id="error"></p>
+            <p class="register">Não tem conta? <a href="/cadastro">Cadastre-se</a></p>
+        </div>
+        <script>
+            document.getElementById("login-form").addEventListener("submit", async e => {
+                e.preventDefault();
+
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+
+                const formData = new URLSearchParams()
+                formData.append("username", username);
+                formData.append("password", password);
+
+                const response = await fetch("auth/token", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem("token", data.access_token);
+                    window.location.href = "/dashboard";
+                } else {
+                    document.getElementById("error").innerText = data.detail;
+                }
+            });
+        </script>
+    </body>
+</html>
