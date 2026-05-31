@@ -7,8 +7,8 @@ class Users(Base):
     __tablename__ = "users"
 
     user_id = Column(Integer, index=True, primary_key=True)
-    username = Column(String)
-    hashed_pass = Column(String, nullable=False)
-    uuid = Column(String, nullable=False, unique=True)
+    username = Column(String(50), nullable=False, unique=True)
+    hashed_pass = Column(String(255), nullable=False)
+    uuid = Column(String(36), nullable=False, unique=True)
 
     items = relationship("Items", backref="user")
